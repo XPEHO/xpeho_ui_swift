@@ -9,6 +9,7 @@ import SwiftUI
 public struct ChoiceSelector: View {
     var label: String
     var choicesAvailable: [String]
+    var defaultSelectedChoice: String?
     
     var size: Double
     
@@ -24,6 +25,7 @@ public struct ChoiceSelector: View {
     public init(
         label: String = "Choice Selector",
         choicesAvailable: [String] = ["Choice 1", "Choice 2", "Choice 3", "Choice 4", "Choice 5"],
+        defaultSelectedChoice: String? = nil,
         size: Double = 18.0,
         backgroundColor: Color = .white,
         choiceColor: Color = XPEHO_THEME.CONTENT_COLOR,
@@ -35,12 +37,18 @@ public struct ChoiceSelector: View {
     ) {
         self.label = label
         self.choicesAvailable = choicesAvailable
+        self.defaultSelectedChoice = defaultSelectedChoice
         self.size = size
         self.backgroundColor = backgroundColor
         self.choiceColor = choiceColor
         self.checkIconColor = checkIconColor
         self.separatorColor = separatorColor
         self.onPress = onPress
+        if let defaultSelectedChoice = defaultSelectedChoice, choicesAvailable.contains(defaultSelectedChoice) {
+            self._selectedChoice = State(initialValue: defaultSelectedChoice)
+        } else {
+            self._selectedChoice = State(initialValue: nil)
+        }
     }
 
     public var body: some View {

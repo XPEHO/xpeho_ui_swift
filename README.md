@@ -154,6 +154,7 @@ import xpeho_ui
 ChoiceSelector(
     label: "Choice Selector Customized",
     choicesAvailable: ["Choice Custom 1", "Choice Custom 2", "Choice Custom 3", "Choice Custom 4", "Choice Custom 5"],
+    defaultSelectedChoice: "Choice Custom 1",
     size: 20.0,
     backgroundColor: CONTENT_COLOR,
     choiceColor: .white,
