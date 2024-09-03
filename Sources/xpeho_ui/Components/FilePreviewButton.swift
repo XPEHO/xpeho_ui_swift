@@ -14,76 +14,78 @@ import AppKit
 
 public struct FilePreviewButton: View {
     
-    var labelLeft: String
-    var labelRight: String
-    var imagePreview: Image
-    var pillTags: [String]
-    var arrowIcon: Image
+    var labelStart: String
+    var labelEnd: String
+    var imagePreview: AnyView
+    var tags: [TagPill]
+    var arrowIcon: AnyView
     
-    var height: Double
-    var labelSize: Double
+    var height: Float
+    var labelSize: Float
     
     var backgroundColor: Color
     var labelColor: Color
-    var pillBackColor: Color
-    var pillLabelColor: Color
-    var arrowColor: Color
     
-    var isDisabled: Bool
-    var isLabelsAbove: Bool
+    var enabled: Bool
+    var labelPosition: LabelPosition
     
     var onPress: () -> Void
     
-    @State private var isPressed = false
+    @State private var pressed = false
 
     public init (
-        labelLeft: String = "FileName",
-        labelRight: String = "FileInfo",
-        imagePreview: Image = Assets.loadImage(named: "Placeholder"),
-        pillTags: [String] = ["Tag Pill 1", "Tag Pill 2", "Tag Pill 3", "Tag Pill 4", "Tag Pill 5", "Tag Pill 6"],
-        arrowIcon: Image = Assets.loadImage(named: "Arrow-right"),
-        height: Double = 232,
-        labelSize: Double = 18,
+        labelStart: String = "FileName",
+        labelEnd: String = "FileInfo",
+        imagePreview: AnyView = AnyView(
+            Assets.loadImage(named: "Placeholder")
+                .resizable()
+        ),
+        tags: [TagPill] = [],
+        arrowIcon: AnyView = AnyView(
+            Assets.loadImage(named: "Arrow-right")
+                .renderingMode(.template)
+                .foregroundStyle(.white)
+        ),
+        height: Float = 232,
+        labelSize: Float = 18,
         backgroundColor: Color = .white,
         labelColor: Color = XPEHO_THEME.CONTENT_COLOR,
-        pillBackColor: Color = XPEHO_THEME.XPEHO_COLOR,
-        pillLabelColor: Color = .white,
-        arrowColor: Color = .white,
-        isDisabled: Bool = false,
-        isLabelsAbove: Bool = true,
+        enabled: Bool = true,
+        labelPosition: LabelPosition = .top,
         onPress: @escaping () -> Void = {
             debugPrint("The button is pressed")
         }
     ) {
-        self.labelLeft = labelLeft
-        self.labelRight = labelRight
+        self.labelStart = labelStart
+        self.labelEnd = labelEnd
         self.imagePreview = imagePreview
-        self.pillTags = pillTags
+        self.tags = tags
         self.arrowIcon = arrowIcon
         self.height = height
         self.labelSize = labelSize
         self.backgroundColor = backgroundColor
         self.labelColor = labelColor
-        self.pillBackColor = pillBackColor
-        self.pillLabelColor = pillLabelColor
-        self.arrowColor = arrowColor
-        self.isDisabled = isDisabled
-        self.isLabelsAbove = isLabelsAbove
+        self.enabled = enabled
+        self.labelPosition = labelPosition
         self.onPress = onPress
+    }
+    
+    public enum LabelPosition {
+        case top, bottom
     }
     
     public var body: some View {
         Button(action: onPress) {
             VStack (spacing: 0) {
-                if isLabelsAbove {
+                if labelPosition == .top {
                     HStack() {
-                        Text(labelLeft)
+                        Text(labelStart)
                         Spacer()
-                        Text(labelRight)
+                        Text(labelEnd)
                     }
                     .padding(12)
                     .foregroundStyle(labelColor)
-                    .font(.raleway(.regular, size: labelSize))
+                    .font(.raleway(.regular, size: CGFloat(labelSize)))
                     .background(backgroundColor)
                 }
                 VStack {
@@ -93,33 +95,28 @@ public struct FilePreviewButton: View {
                             VStack {
                                 Spacer()
                                 HStack (alignment: .bottom) {
-                                    ForEach(pillTags.prefix(numberOfPillsToShow(in: geometry.size.width)), id: \.self) { tag in
-                                        TagPill(
-                                            label: tag,
-                                            backgroundColor: pillBackColor,
-                                            labelColor: pillLabelColor
-                                        )
+                                    ForEach(tags.indices, id: \.self) { index in
+                                        tags[index]
                                         .fixedSize(horizontal: true, vertical: false)
                                     }
                                 }
+                                .frame(width: geometry.size.width, alignment: .leading)
+                                .clipShape(Rectangle())
                             }
                         }
                         Spacer()
                         arrowIcon
-                            .renderingMode(.template)
-                            .foregroundColor(arrowColor)
                             .padding(.leading, 5)
-                            .offset(x: isPressed ? 40 : 0)
-                            .opacity(isPressed ? 0 : 1)
-                            .animation(.easeInOut(duration: 0.2), value: isPressed)
+                            .offset(x: pressed ? 40 : 0)
+                            .opacity(pressed ? 0 : 1)
+                            .animation(.easeInOut(duration: 0.2), value: pressed)
                     }
                     .padding()
                 }
-                .frame(height: height)
+                .frame(height: CGFloat(height))
                 .background(
                     ZStack {
                         imagePreview
-                            .resizable()
                             .scaledToFill()
 
                         LinearGradient(gradient: Gradient(stops: [
@@ -130,65 +127,45 @@ public struct FilePreviewButton: View {
                     }
                 )
                 .clipped()
-                if !isLabelsAbove {
+                if labelPosition == .bottom {
                     HStack() {
-                        Text(labelLeft)
+                        Text(labelStart)
                         Spacer()
-                        Text(labelRight)
+                        Text(labelEnd)
                     }
                     .padding(12)
                     .foregroundStyle(labelColor)
-                    .font(.raleway(.regular, size: labelSize))
+                    .font(.raleway(.regular, size: CGFloat(labelSize)))
                     .background(backgroundColor)
                 }
             }
             .background(backgroundColor)
         }
-        .grayscale(isDisabled ? 1 : 0)
+        .grayscale(enabled ? 0 : 1)
         .background(backgroundColor)
         .buttonStyle(NoTapAnimationStyle())
         .pressAction {
-            isPressed = true
+            pressed = true
         } onRelease: {
-            isPressed = false
+            pressed = false
         }
-        .disabled(isDisabled)
+        .disabled(!enabled)
         .clipShape(RoundedRectangle(cornerRadius: 12))
-        .accessibilityIdentifier(labelLeft)
-    }
-    
-    // Calculate the number of pills that fit in the available width
-    func numberOfPillsToShow(in width: CGFloat) -> Int {
-        var totalWidth: CGFloat = 0
-        var count = 0
-        let securityForPaddings: CGFloat = 28
-        
-        #if canImport(UIKit)
-        guard let usingFont = UIFont(name: "Rubik-SemiBold", size: 10)
-        else {
-            return 0
-        }
-        #elseif canImport(AppKit)
-        guard let usingFont = NSFont(name: "Rubik-SemiBold", size: 10)
-        else {
-            return 0
-        }
-        #endif
-        
-        for tag in pillTags {
-            let pillWidth = tag.widthByFont(usingFont: usingFont) + securityForPaddings
-            if totalWidth + pillWidth > width {
-                break
-            }
-            totalWidth += pillWidth
-            count += 1
-        }
-        
-        return count
+        .accessibilityIdentifier(labelStart)
     }
 }
 
 #Preview {
-    FilePreviewButton()
+    FilePreviewButton(
+        tags: [
+            TagPill(),
+            TagPill(),
+            TagPill(),
+            TagPill(),
+            TagPill(),
+            TagPill(),
+            TagPill()
+        ]
+    )
 }
 

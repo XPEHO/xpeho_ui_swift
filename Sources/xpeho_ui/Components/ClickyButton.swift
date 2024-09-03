@@ -10,49 +10,56 @@ import SwiftUI
 public struct ClickyButton: View {
     var label: String
     
-    var size: Double
+    var size: Float
+    var horizontalPadding: Float
+    var verticalPadding: Float
     
     var backgroundColor: Color
     var labelColor: Color
     
-    var thinMode: Bool
-    var isDisabled: Bool
+    var enabled: Bool
     
     var onPress: () -> Void
     
-    @State private var isPressed = false
+    @State private var pressed = false
 
     public init(
         label: String = "Clicky Button",
-        size: Double = 16,
+        size: Float = 16,
+        horizontalPadding: Float = 32,
+        verticalPadding: Float = 16,
         backgroundColor: Color = XPEHO_THEME.XPEHO_COLOR,
         labelColor: Color = .white,
-        thinMode: Bool = false,
-        isDisabled: Bool = false,
+        enabled: Bool = true,
         onPress: @escaping () -> Void = {
             debugPrint("The button is pressed")
         }
     ) {
         self.label = label
         self.size = size
+        self.horizontalPadding = horizontalPadding
+        self.verticalPadding = verticalPadding
         self.backgroundColor = backgroundColor
         self.labelColor = labelColor
-        self.thinMode = thinMode
-        self.isDisabled = isDisabled
+        self.enabled = enabled
         self.onPress = onPress
     }
     
     public var body: some View {
         Button(action: onPress) {
             Text(label)
-                .font(.rubik(.semiBold, size: size))
+                .font(.rubik(.semiBold, size: CGFloat(size)))
                 .textCase(.uppercase)
                 .multilineTextAlignment(.center)
         }
-        .padding(.horizontal, thinMode ? 50 : 32)
-        .padding(.vertical, thinMode ? 12 : 16)
-        .background(isDisabled ? XPEHO_THEME.DISABLED_COLOR : backgroundColor)
-        .foregroundStyle(isDisabled ? Color.black.opacity(0.15) : labelColor)
+        .padding(.horizontal, CGFloat(horizontalPadding))
+        .padding(.vertical, CGFloat(verticalPadding))
+        .background(enabled
+                    ? backgroundColor
+                    : XPEHO_THEME.DISABLED_COLOR)
+        .foregroundStyle(enabled 
+                         ? labelColor
+                         : Color.black.opacity(0.15))
         .cornerRadius(20)
         .overlay(
             RoundedRectangle(cornerRadius: 20)
@@ -60,30 +67,35 @@ public struct ClickyButton: View {
         )
         .background(
             RoundedRectangle(cornerRadius: 20)
-                .fill(isDisabled ? XPEHO_THEME.DISABLED_COLOR : backgroundColor)
+                .fill(enabled
+                      ? backgroundColor
+                      : XPEHO_THEME.DISABLED_COLOR)
                 .fill(Color.black.opacity(0.15))
-                .offset(y: isPressed || isDisabled ? 0 : 4)
+                .offset(y: pressed || !enabled ? 0 : 4)
         )
-        .offset(y: isPressed || isDisabled ? 4 : 0)
+        .offset(y: pressed || !enabled ? 4 : 0)
         .buttonStyle(NoTapAnimationStyle())
         .pressAction {
-            isPressed = true
+            pressed = true
         } onRelease: {
-            isPressed = false
+            pressed = false
         }
-        .disabled(isDisabled)
+        .disabled(!enabled)
         .accessibilityIdentifier(label)
     }
 }
 
 #Preview {
     ClickyButton(
-        label: "Button Customized",
+        label: "Preview Button",
+        size: 16,
+        horizontalPadding: 32,
+        verticalPadding: 16,
         backgroundColor: XPEHO_THEME.XPEHO_COLOR,
         labelColor: .white,
-        isDisabled: false,
+        enabled: true,
         onPress: {
-            debugPrint("The button is pressed")
+            debugPrint("The button preview is pressed")
         }
     )
 }
