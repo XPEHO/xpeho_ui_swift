@@ -104,15 +104,14 @@ Finally, you can use the colors of the design using the constants directly, they
 import xpeho_ui
 
 ClickyButton(
-    label: "Clicky Button Customized",
-    size: 20,
-    backgroundColor: .red,
-    labelColor: .white,
-    thinMode: false,
-    isDisabled: false,
-    onPress: {
-        debugPrint("The button is pressed")
-    }
+    label: String,
+    size: Float,
+    horizontalPadding: Float,
+    verticalPadding: Float,
+    backgroundColor: Color,
+    labelColor: Color,
+    enabled: Bool,
+    onPress: () -> Void
 )
 ```
 
@@ -125,19 +124,16 @@ ClickyButton(
 import xpeho_ui
 
 InputText(
-    label: "Input Text Customed",
-    hiddenSwitcherIcon: Assets.loadImage(named: "Eye"),
-    initialInput: "input",
-    labelSize: 15.0,
-    inputSize: 20.0,
-    labelColor: RED_INFO_COLOR,
-    backgroundColor: CONTENT_COLOR,
-    inputColor: .white,
-    hiddenSwitcherColor: .white,
-    isHiddenable: false,
-    onInput: { input in
-        debugPrint("The input \(input) is typed")
-    }
+    label: String,
+    passwordSwitcherIcon: AnyView,
+    defaultInput: String,
+    labelSize: Float,
+    inputSize: Float,
+    labelColor: Color,
+    backgroundColor: Color,
+    inputColor: Color,
+    password: Bool,
+    onInput: (String) -> Void
 )
 
 ```
@@ -152,17 +148,15 @@ InputText(
 import xpeho_ui
 
 ChoiceSelector(
-    label: "Choice Selector Customized",
-    choicesAvailable: ["Choice Custom 1", "Choice Custom 2", "Choice Custom 3", "Choice Custom 4", "Choice Custom 5"],
-    defaultSelectedChoice: "Choice Custom 1",
-    size: 20.0,
-    backgroundColor: CONTENT_COLOR,
-    choiceColor: .white,
-    checkIconColor: .white,
-    separatorColor: .white,
-    onPress: { choice in
-        debugPrint("The choice \(choice) is pressed")
-    }
+    label: String,
+    choicesAvailable: [String],
+    defaultSelectedChoice: String,
+    size: Float,
+    backgroundColor: Color,
+    choiceColor: Color,
+    checkIconColor: Color,
+    separatorColor: Color,
+    onPress: (String) -> Void
 )
 ```
 
@@ -176,34 +170,19 @@ ChoiceSelector(
 import xpeho_ui
 
 CollapsableCard(
-    label: "Collapsable Card Customized",
-    headTag: "Head Tag",
-    tags: ["Tag Customized 1", "Tag Customized 2", "Tag Customized 3", "Tag Customized 4"],
-    importantTags: ["Tag Customized 3"],
-    buttonLabel: "Action",
-    icon: Assets.loadImage(named: "Briefcase"),
-    openArrowIcon: Assets.loadImage(named: "Chevron-down"),
-    closeArrowIcon: Assets.loadImage(named: "Chevron-up"),
-    size: 18.0,
-    labelColor: .white,
-    backgroundColor: CONTENT_COLOR,
-    headTagBackgroundColor: .white,
-    headTagLabelColor: RED_INFO_COLOR,
-    tagBackgroundColor: .white,
-    tagLabelColor: CONTENT_COLOR,
-    importantTagBackgroundColor: .white,
-    importantTagLabelColor: RED_INFO_COLOR,
-    arrowColor: .white,
-    iconColor: .white,
-    buttonBackgroundColor: RED_INFO_COLOR,
-    buttonLabelColor: .white,
-    isCollapsable: true,
-    isHeadTagVisible: true,
-    isButtonVisible: true,
-    isDefaultOpen: true,
-    onPressButton: {
-        debugPrint("The button is pressed")
-    }
+    label: String,
+    headTag: TagPill?,
+    tags: [TagPill],
+    button: ClickyButton?,
+    icon: AnyView,
+    openArrowIcon: AnyView,
+    closeArrowIcon: AnyView,
+    size: Float,
+    labelColor: Color,
+    backgroundColor: Color,
+    collapsable: Bool,
+    defaultOpen: Bool,
+    onPressButton: () -> Void
 )
 ```
 
@@ -217,23 +196,18 @@ CollapsableCard(
 import xpeho_ui
 
 FilePreviewButton(
-    labelLeft: "File Preview Button Customized",
-    labelRight: "",
-    imagePreview: Assets.loadImage(named: "Placeholder"),
-    pillTags: ["Tag Pill Custom 1", "Tag Pill Custom 2", "Tag Pill Custom 3", "Tag Pill Custom 4"],
-    arrowIcon: Assets.loadImage(named: "Arrow-right"),
-    height: 200,
-    labelSize: 20,
-    backgroundColor: CONTENT_COLOR,
-    labelColor: .white,
-    pillBackColor: RED_INFO_COLOR,
-    pillLabelColor: .white,
-    arrowColor: RED_INFO_COLOR,
-    isDisabled: false,
-    isLabelsAbove: false,
-    onPress: {
-        debugPrint("The button is pressed")
-    }
+    labelStart: String,
+    labelEnd: String,
+    imagePreview: AnyView,
+    tags: [TagPill],
+    arrowIcon: AnyView,
+    height: Float,
+    labelSize: Float,
+    backgroundColor: Color,
+    labelColor: Color,
+    enabled: Bool,
+    labelPosition: LabelPosition,
+    onPress: () -> Void
 )
 ```
 
@@ -247,9 +221,9 @@ FilePreviewButton(
 import xpeho_ui
 
 TagPill(
-    label: "Tag Pill Customized",
-    size: 20,
-    backgroundColor: GREEN_DARK_COLOR,
-    labelColor: .white
+    label: String,
+    size: Float,
+    backgroundColor: Color,
+    labelColor: Color
 )
 ```

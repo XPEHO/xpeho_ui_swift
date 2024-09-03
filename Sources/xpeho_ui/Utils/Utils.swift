@@ -84,15 +84,6 @@ public extension View {
     }
 }
 
-// Calculating the width of a string using a font
-public extension String {
-    func widthByFont(usingFont font: UIFont) -> CGFloat {
-        let fontAttributes = [NSAttributedString.Key.font: font]
-        let size = self.size(withAttributes: fontAttributes)
-        return size.width
-    }
-}
-
 #elseif canImport(AppKit)
 import AppKit
 
@@ -102,15 +93,6 @@ public extension View {
         let vc = NSHostingController(rootView: self)
         vc.view.frame = NSScreen.main?.frame ?? .zero
         return vc
-    }
-}
-
-// Calculating the width of a string using a font
-public extension String {
-    func widthByFont(usingFont font: NSFont) -> CGFloat {
-        let fontAttributes = [NSAttributedString.Key.font: font]
-        let size = self.size(withAttributes: fontAttributes)
-        return size.width
     }
 }
 #endif

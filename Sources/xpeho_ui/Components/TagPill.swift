@@ -10,14 +10,14 @@ import SwiftUI
 public struct TagPill: View {
     var label: String
     
-    var size: Double
+    var size: Float
     
     var backgroundColor: Color
     var labelColor: Color
     
     public init(
         label: String = "Tag Pill",
-        size: Double = 10.0,
+        size: Float = 10.0,
         backgroundColor: Color = XPEHO_THEME.XPEHO_COLOR,
         labelColor: Color = .white
     ) {
@@ -29,7 +29,7 @@ public struct TagPill: View {
     
     public var body: some View {
         Text(label)
-            .font(.rubik(.semiBold, size: size))
+            .font(.rubik(.semiBold, size: CGFloat(size)))
             .textCase(.uppercase)
             .multilineTextAlignment(.center)
             .padding(4)

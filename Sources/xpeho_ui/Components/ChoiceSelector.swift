@@ -11,7 +11,7 @@ public struct ChoiceSelector: View {
     var choicesAvailable: [String]
     var defaultSelectedChoice: String?
     
-    var size: Double
+    var size: Float
     
     var backgroundColor: Color
     var choiceColor: Color
@@ -26,7 +26,7 @@ public struct ChoiceSelector: View {
         label: String = "Choice Selector",
         choicesAvailable: [String] = ["Choice 1", "Choice 2", "Choice 3", "Choice 4", "Choice 5"],
         defaultSelectedChoice: String? = nil,
-        size: Double = 18.0,
+        size: Float = 18.0,
         backgroundColor: Color = .white,
         choiceColor: Color = XPEHO_THEME.CONTENT_COLOR,
         checkIconColor: Color = XPEHO_THEME.XPEHO_COLOR,
@@ -57,7 +57,7 @@ public struct ChoiceSelector: View {
                 VStack {
                     HStack {
                         Text(choice)
-                            .font(.raleway(.regular, size: size))
+                            .font(.raleway(.regular, size: CGFloat(size)))
                             .foregroundColor(choiceColor)
                         Spacer()
                         if choice == selectedChoice {
