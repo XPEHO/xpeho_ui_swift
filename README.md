@@ -181,8 +181,7 @@ CollapsableCard(
     labelColor: Color,
     backgroundColor: Color,
     collapsable: Bool,
-    defaultOpen: Bool,
-    onPressButton: () -> Void
+    defaultOpen: Bool
 )
 ```
 
