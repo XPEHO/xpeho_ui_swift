@@ -24,8 +24,6 @@ public struct CollapsableCard: View {
     var collapsable: Bool
     var defaultOpen: Bool
     
-    var onPressButton: () -> Void
-    
     @State private var open: Bool = true
     
     public init(
@@ -52,10 +50,7 @@ public struct CollapsableCard: View {
         labelColor: Color = XPEHO_THEME.CONTENT_COLOR,
         backgroundColor: Color = .white,
         collapsable: Bool = true,
-        defaultOpen: Bool = true,
-        onPressButton: @escaping () -> Void = {
-            debugPrint("The button is pressed")
-        }
+        defaultOpen: Bool = true
     ) {
         self.label = label
         self.headTag = headTag
@@ -69,7 +64,6 @@ public struct CollapsableCard: View {
         self.backgroundColor = backgroundColor
         self.collapsable = collapsable
         self.defaultOpen = defaultOpen
-        self.onPressButton = onPressButton
         self._open = State(initialValue: defaultOpen)
     }
     
