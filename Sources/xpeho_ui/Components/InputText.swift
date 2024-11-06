@@ -28,7 +28,12 @@ public struct InputText: View {
     
     @State private var hidden: Bool = true
     @State private var input: String
-    @FocusState private var focused: Bool
+    @FocusState private var focused: DisplayState?
+    
+    enum DisplayState {
+        case show
+        case hide
+    }
 
     public init (
         label: String = "Input Text",
@@ -79,7 +84,7 @@ public struct InputText: View {
                         onCommit: onSubmit
                     )
                     .font(.roboto(.regular, size: CGFloat(inputSize)))
-                    .focused($focused)
+                    .focused($focused, equals: .hide)
                     #if os(iOS)
                     .textInputAutocapitalization(.never)
                     .submitLabel(submitLabel)
@@ -95,7 +100,7 @@ public struct InputText: View {
                         onCommit: onSubmit
                     )
                     .font(.roboto(.regular, size: CGFloat(inputSize)))
-                    .focused($focused)
+                    .focused($focused, equals: .show)
                     #if os(iOS)
                     .textInputAutocapitalization(.never)
                     .submitLabel(submitLabel)
@@ -109,8 +114,10 @@ public struct InputText: View {
                     passwordSwitcherIcon
                         .pressAction {
                             hidden = false
+                            focused = .show
                         } onRelease: {
                             hidden = true
+                            focused = .hide
                         }
                 }
             }
@@ -127,5 +134,7 @@ public struct InputText: View {
 }
 
 #Preview {
-    InputText()
+    InputText(
+        password: true
+    )
 }
