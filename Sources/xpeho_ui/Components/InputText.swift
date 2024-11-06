@@ -10,7 +10,7 @@ import SwiftUI
 
 public struct InputText: View {
     var label: String
-    var passwordSwitcherIcon : AnyView
+    var passwordSwitcherIcon: AnyView
     var defaultInput: String
     
     var labelSize: Float
@@ -22,6 +22,8 @@ public struct InputText: View {
     
     var password: Bool
     
+    var submitLabel: SubmitLabel
+    var onSubmit: () -> Void
     var onInput: (String) -> Void
     
     @State private var hidden: Bool = true
@@ -42,6 +44,8 @@ public struct InputText: View {
         backgroundColor: Color = .white,
         inputColor: Color = XPEHO_THEME.CONTENT_COLOR,
         password: Bool = false,
+        submitLabel: SubmitLabel = .next,
+        onSubmit: @escaping () -> Void = {},
         onInput: @escaping (String) -> Void = { input in
             debugPrint("The input \(input) is typed")
         }
@@ -55,6 +59,8 @@ public struct InputText: View {
         self.backgroundColor = backgroundColor
         self.inputColor = inputColor
         self.password = password
+        self.submitLabel = submitLabel
+        self.onSubmit = onSubmit
         self.onInput = onInput
         self._input = State(initialValue: defaultInput)
     }
@@ -69,12 +75,14 @@ public struct InputText: View {
                 if (password && hidden) {
                     SecureField(
                         "",
-                        text: $input
+                        text: $input,
+                        onCommit: onSubmit
                     )
                     .font(.roboto(.regular, size: CGFloat(inputSize)))
                     .focused($focused)
                     #if os(iOS)
                     .textInputAutocapitalization(.never)
+                    .submitLabel(submitLabel)
                     #endif
                     .onChange(of: input) { oldValue, newValue in
                         onInput(newValue)
@@ -83,12 +91,14 @@ public struct InputText: View {
                 } else {
                     TextField(
                         "",
-                        text: $input
+                        text: $input,
+                        onCommit: onSubmit
                     )
                     .font(.roboto(.regular, size: CGFloat(inputSize)))
                     .focused($focused)
                     #if os(iOS)
                     .textInputAutocapitalization(.never)
+                    .submitLabel(submitLabel)
                     #endif
                     .onChange(of: input) { oldValue, newValue in
                         onInput(newValue)
@@ -119,4 +129,3 @@ public struct InputText: View {
 #Preview {
     InputText()
 }
-

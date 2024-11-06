@@ -135,6 +135,8 @@ InputText(
     backgroundColor: Color,
     inputColor: Color,
     password: Bool,
+    submitLabel: SubmitLabel,
+    onSubmit: () -> Void,
     onInput: (String) -> Void
 )
 
