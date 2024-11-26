@@ -51,29 +51,30 @@ public struct ClickyButton: View {
                 .font(.rubik(.semiBold, size: CGFloat(size)))
                 .textCase(.uppercase)
                 .multilineTextAlignment(.center)
+                .lineLimit(1)
+                .padding(.horizontal, CGFloat(horizontalPadding))
+                .padding(.vertical, CGFloat(verticalPadding))
+                .background(enabled
+                            ? backgroundColor
+                            : XPEHO_THEME.DISABLED_COLOR)
+                .foregroundStyle(enabled 
+                                ? labelColor
+                                : Color.black.opacity(0.15))
+                .cornerRadius(20)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .strokeBorder(Color.black.opacity(0.15), lineWidth: 4)
+                )
+                .background(
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(enabled
+                            ? backgroundColor
+                            : XPEHO_THEME.DISABLED_COLOR)
+                        .fill(Color.black.opacity(0.15))
+                        .offset(y: pressed || !enabled ? 0 : 4)
+                )
+                .offset(y: pressed || !enabled ? 4 : 0)
         }
-        .padding(.horizontal, CGFloat(horizontalPadding))
-        .padding(.vertical, CGFloat(verticalPadding))
-        .background(enabled
-                    ? backgroundColor
-                    : XPEHO_THEME.DISABLED_COLOR)
-        .foregroundStyle(enabled 
-                         ? labelColor
-                         : Color.black.opacity(0.15))
-        .cornerRadius(20)
-        .overlay(
-            RoundedRectangle(cornerRadius: 20)
-                .strokeBorder(Color.black.opacity(0.15), lineWidth: 4)
-        )
-        .background(
-            RoundedRectangle(cornerRadius: 20)
-                .fill(enabled
-                      ? backgroundColor
-                      : XPEHO_THEME.DISABLED_COLOR)
-                .fill(Color.black.opacity(0.15))
-                .offset(y: pressed || !enabled ? 0 : 4)
-        )
-        .offset(y: pressed || !enabled ? 4 : 0)
         .buttonStyle(NoTapAnimationStyle())
         .pressAction {
             pressed = true
