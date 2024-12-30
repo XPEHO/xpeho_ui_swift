@@ -2,9 +2,7 @@
 
 This is the UI for the XPEHO projects in SwiftUI.
 
-The components are tested in [xpeho_ui_swift_test](https://github.com/XPEHO/xpeho_ui_swift_test) repository.
-
-## Getting Started
+## Import the package
 
 In Xcode click on `File > Add Package Dependencies...`.
 
@@ -26,7 +24,9 @@ init() {
 }
 ```
 
-You can use them by yourself in your app using :
+## Use the package
+
+You can use the package fonts in your app using :
 
 ```swift
 import xpeho_ui
@@ -94,9 +94,9 @@ Finally, you can use the colors of the design using the constants directly, they
 - BACKGROUND_COLOR : ![#F2F6F9](https://via.placeholder.com/15/F2F6F9/000000?text=+)
 - GRAY_LIGHT_COLOR : ![#EEEEEE](https://via.placeholder.com/15/EEEEEE/000000?text=+)
 
-## Components
+### Components
 
-### ClickyButton
+#### ClickyButton
 
 ![clicky-button](https://github.com/XPEHO/xpeho_ui_swift_test/blob/main/XpehoUI/XpehoUIUITests/__Snapshots__/ClickyButtonTests/testClickyButtonSnapshot.1.png?raw=true)
 
@@ -117,7 +117,7 @@ ClickyButton(
 )
 ```
 
-### InputText
+#### InputText
 
 ![input-text](https://github.com/XPEHO/xpeho_ui_swift_test/blob/main/XpehoUI/XpehoUIUITests/__Snapshots__/InputTextTests/testInputTextSnapshot.1.png?raw=true)
 **Usage**
@@ -142,7 +142,7 @@ InputText(
 
 ```
 
-### ChoiceSelector
+#### ChoiceSelector
 
 ![choice-selector](https://github.com/XPEHO/xpeho_ui_swift_test/blob/main/XpehoUI/XpehoUIUITests/__Snapshots__/ChoiceSelectorTests/testChoiceSelectorSnapshot.1.png?raw=true)
 
@@ -164,7 +164,7 @@ ChoiceSelector(
 )
 ```
 
-### CollapsableCard
+#### CollapsableCard
 
 ![collapsable-card](https://github.com/XPEHO/xpeho_ui_swift_test/blob/main/XpehoUI/XpehoUIUITests/__Snapshots__/CollapsableCardTests/testCollapsableCardSnapshot.1.png?raw=true)
 
@@ -189,7 +189,7 @@ CollapsableCard(
 )
 ```
 
-### FilePreviewButton
+#### FilePreviewButton
 
 ![file-preview-button](https://github.com/XPEHO/xpeho_ui_swift_test/blob/main/XpehoUI/XpehoUIUITests/__Snapshots__/FilePreviewButtonTests/testFilePreviewButtonSnapshot.1.png?raw=true)
 
@@ -214,7 +214,7 @@ FilePreviewButton(
 )
 ```
 
-### TagPill
+#### TagPill
 
 ![tag-pill](https://github.com/XPEHO/xpeho_ui_swift_test/blob/main/XpehoUI/XpehoUIUITests/__Snapshots__/TagPillTests/testTagPillSnapshot.1.png?raw=true)
 
@@ -230,3 +230,20 @@ TagPill(
     labelColor: Color
 )
 ```
+
+## Edit the package
+
+- Clone the repository using `git clone`
+- Launch the folder in Xcode
+- Make your changes
+- Send a Pull Request
+
+## Deployment of the package
+
+The packages on github repositories are automatically read by the swift package manager.
+
+The only thing you need to do is to create a new release on the repository following the [GitHub documentation](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository).
+
+## Testing the package
+
+The components are tested in [xpeho_ui_swift_test](https://github.com/XPEHO/xpeho_ui_swift_test) repository.
