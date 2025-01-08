@@ -137,7 +137,8 @@ InputText(
     password: Bool,
     submitLabel: SubmitLabel,
     onSubmit: () -> Void,
-    onInput: (String) -> Void
+    onInput: (String) -> Void,
+    isReadOnly: Bool
 )
 
 ```
