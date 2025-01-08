@@ -25,6 +25,7 @@ public struct InputText: View {
     var submitLabel: SubmitLabel
     var onSubmit: () -> Void
     var onInput: (String) -> Void
+    var isReadOnly: Bool
     
     @State private var hidden: Bool = true
     @State private var input: String
@@ -50,6 +51,7 @@ public struct InputText: View {
         inputColor: Color = XPEHO_THEME.CONTENT_COLOR,
         password: Bool = false,
         submitLabel: SubmitLabel = .next,
+        isReadOnly: Bool = false,
         onSubmit: @escaping () -> Void = {},
         onInput: @escaping (String) -> Void = { input in
             debugPrint("The input \(input) is typed")
@@ -67,6 +69,7 @@ public struct InputText: View {
         self.submitLabel = submitLabel
         self.onSubmit = onSubmit
         self.onInput = onInput
+        self.isReadOnly = isReadOnly
         self._input = State(initialValue: defaultInput)
     }
     
@@ -93,22 +96,23 @@ public struct InputText: View {
                         onInput(newValue)
                     }
                     .foregroundStyle(inputColor)
-                } else {
-                    TextField(
-                        "",
-                        text: $input,
-                        onCommit: onSubmit
-                    )
-                    .font(.roboto(.regular, size: CGFloat(inputSize)))
-                    .focused($focused, equals: .show)
-                    #if os(iOS)
-                    .textInputAutocapitalization(.never)
-                    .submitLabel(submitLabel)
-                    #endif
-                    .onChange(of: input) { oldValue, newValue in
-                        onInput(newValue)
-                    }
-                    .foregroundStyle(inputColor)
+                }   else {
+                        TextField(
+                            "",
+                            text: $input,
+                            onCommit: onSubmit
+                        )
+                        .font(.roboto(.regular, size: CGFloat(inputSize)))
+                        .focused($focused, equals: .show)
+                        #if os(iOS)
+                        .textInputAutocapitalization(.never)
+                        .submitLabel(submitLabel)
+                        #endif
+                        .onChange(of: input) { oldValue, newValue in
+                            onInput(newValue)
+                        }
+                        .foregroundStyle(inputColor)
+                        .disabled(isReadOnly)
                 }
                 if (!input.isEmpty && password){
                     passwordSwitcherIcon
@@ -135,6 +139,9 @@ public struct InputText: View {
 
 #Preview {
     InputText(
-        password: true
+        label: "email",
+        defaultInput: "test.example@example.com",
+        password: false,
+        isReadOnly: true
     )
 }
