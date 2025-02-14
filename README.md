@@ -135,13 +135,18 @@ InputText(
     backgroundColor: Color,
     inputColor: Color,
     password: Bool,
+    multiline: Bool,
+    readOnly: Bool,
     submitLabel: SubmitLabel,
     onSubmit: () -> Void,
-    onInput: (String) -> Void,
-    isReadOnly: Bool
+    onInput: (String) -> Void
 )
 
 ```
+
+submitLabel and onSubmit parameters are dedicated to action using kayboard navigation.
+
+Warning ! The multiline feature is not compatible with password and keyboard navigation feature, the order of priority is that of the parameters (password > multiline > submitLabel & onSubmit).
 
 #### ChoiceSelector
 
