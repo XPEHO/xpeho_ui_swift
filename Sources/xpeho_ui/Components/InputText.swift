@@ -21,11 +21,12 @@ public struct InputText: View {
     var inputColor: Color
     
     var password: Bool
+    var multiline: Bool
+    var readOnly: Bool
     
     var submitLabel: SubmitLabel
     var onSubmit: () -> Void
     var onInput: (String) -> Void
-    var isReadOnly: Bool
     
     @State private var hidden: Bool = true
     @State private var input: String
@@ -50,8 +51,9 @@ public struct InputText: View {
         backgroundColor: Color = .white,
         inputColor: Color = XPEHO_THEME.CONTENT_COLOR,
         password: Bool = false,
+        multiline: Bool = false,
+        readOnly: Bool = false,
         submitLabel: SubmitLabel = .next,
-        isReadOnly: Bool = false,
         onSubmit: @escaping () -> Void = {},
         onInput: @escaping (String) -> Void = { input in
             debugPrint("The input \(input) is typed")
@@ -66,15 +68,16 @@ public struct InputText: View {
         self.backgroundColor = backgroundColor
         self.inputColor = inputColor
         self.password = password
+        self.multiline = multiline
+        self.readOnly = readOnly
         self.submitLabel = submitLabel
         self.onSubmit = onSubmit
         self.onInput = onInput
-        self.isReadOnly = isReadOnly
         self._input = State(initialValue: defaultInput)
     }
     
     public var body: some View {
-        ZStack (alignment: .leading) {
+        ZStack (alignment: .topLeading) {
             Text(label)
                 .font(.raleway(.medium, size: CGFloat(input.isEmpty ? inputSize : labelSize)))
                 .foregroundStyle(labelColor)
@@ -96,23 +99,42 @@ public struct InputText: View {
                         onInput(newValue)
                     }
                     .foregroundStyle(inputColor)
-                }   else {
-                        TextField(
-                            "",
-                            text: $input,
-                            onCommit: onSubmit
-                        )
-                        .font(.roboto(.regular, size: CGFloat(inputSize)))
-                        .focused($focused, equals: .show)
-                        #if os(iOS)
-                        .textInputAutocapitalization(.never)
-                        .submitLabel(submitLabel)
-                        #endif
-                        .onChange(of: input) { oldValue, newValue in
-                            onInput(newValue)
-                        }
-                        .foregroundStyle(inputColor)
-                        .disabled(isReadOnly)
+                    .disabled(readOnly)
+                } else if (!password && multiline) {
+                    // We prevent passwords field to be multiline because secure fields can't be multiline
+                    TextField(
+                        "",
+                        text: $input,
+                        axis: .vertical
+                    )
+                    .lineLimit(5...10)
+                    .font(.roboto(.regular, size: CGFloat(inputSize)))
+                    .focused($focused, equals: .show)
+                    #if os(iOS)
+                    .textInputAutocapitalization(.never)
+                    #endif
+                    .onChange(of: input) { oldValue, newValue in
+                        onInput(newValue)
+                    }
+                    .foregroundStyle(inputColor)
+                    .disabled(readOnly)
+                } else {
+                    TextField(
+                        "",
+                        text: $input,
+                        onCommit: onSubmit
+                    )
+                    .font(.roboto(.regular, size: CGFloat(inputSize)))
+                    .focused($focused, equals: .show)
+                    #if os(iOS)
+                    .textInputAutocapitalization(.never)
+                    .submitLabel(submitLabel)
+                    #endif
+                    .onChange(of: input) { oldValue, newValue in
+                        onInput(newValue)
+                    }
+                    .foregroundStyle(inputColor)
+                    .disabled(readOnly)
                 }
                 if (!input.isEmpty && password){
                     passwordSwitcherIcon
@@ -142,6 +164,6 @@ public struct InputText: View {
         label: "email",
         defaultInput: "test.example@example.com",
         password: false,
-        isReadOnly: true
+        readOnly: true
     )
 }
