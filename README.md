@@ -233,7 +233,8 @@ TagPill(
     label: String,
     size: Float,
     backgroundColor: Color,
-    labelColor: Color
+    labelColor: Color,
+    icon: Image
 )
 ```
 
