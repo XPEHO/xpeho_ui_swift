@@ -15,28 +15,42 @@ public struct TagPill: View {
     var backgroundColor: Color
     var labelColor: Color
     
+    var icon: Image?
+    
     public init(
         label: String = "Tag Pill",
         size: Float = 10.0,
         backgroundColor: Color = XPEHO_THEME.XPEHO_COLOR,
-        labelColor: Color = .white
+        labelColor: Color = .white,
+        icon: Image? = nil
     ) {
         self.label = label
         self.size = size
         self.backgroundColor = backgroundColor
         self.labelColor = labelColor
+        self.icon = icon
     }
     
     public var body: some View {
-        Text(label)
-            .font(.rubik(.semiBold, size: CGFloat(size)))
-            .textCase(.uppercase)
-            .multilineTextAlignment(.center)
-            .padding(4)
-            .background(backgroundColor)
-            .foregroundColor(labelColor)
-            .cornerRadius(6)
-            .lineLimit(1)
+        HStack(spacing: 4) {
+            if let icon = icon {
+                icon
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: CGFloat(size), height: CGFloat(size))
+                    .foregroundColor(labelColor)
+            }
+            Text(label)
+                .font(.rubik(.semiBold, size: CGFloat(size)))
+                .textCase(.uppercase)
+                .lineLimit(1)
+                .multilineTextAlignment(.center)
+        }
+        .padding(.vertical, 4)
+        .padding(.horizontal, 4)
+        .background(backgroundColor)
+        .foregroundColor(labelColor)
+        .cornerRadius(6)
     }
 }
 
@@ -45,5 +59,12 @@ public struct TagPill: View {
         label: "Tag Pill Customized",
         backgroundColor: XPEHO_THEME.XPEHO_COLOR,
         labelColor: .white
+    )
+    
+    TagPill(
+        label: "Tag Pill Customized for icon",
+        backgroundColor: XPEHO_THEME.XPEHO_COLOR,
+        labelColor: .white,
+        icon: Image(systemName: "location.circle")
     )
 }
