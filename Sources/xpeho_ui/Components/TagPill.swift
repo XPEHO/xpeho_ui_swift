@@ -15,14 +15,14 @@ public struct TagPill: View {
     var backgroundColor: Color
     var labelColor: Color
     
-    var icon: Image?
+    var icon: AnyView?
     
     public init(
         label: String = "Tag Pill",
         size: Float = 10.0,
         backgroundColor: Color = XPEHO_THEME.XPEHO_COLOR,
         labelColor: Color = .white,
-        icon: Image? = nil
+        icon: AnyView? = nil
     ) {
         self.label = label
         self.size = size
@@ -35,8 +35,6 @@ public struct TagPill: View {
         HStack(spacing: 4) {
             if let icon = icon {
                 icon
-                    .resizable()
-                    .scaledToFit()
                     .frame(width: CGFloat(size), height: CGFloat(size))
                     .foregroundColor(labelColor)
             }
@@ -65,6 +63,9 @@ public struct TagPill: View {
         label: "Tag Pill Customized for icon",
         backgroundColor: XPEHO_THEME.XPEHO_COLOR,
         labelColor: .white,
-        icon: Image(systemName: "location.circle")
+        icon: AnyView(Image(systemName: "location.circle")
+            .resizable()
+            .scaledToFit()
+            .foregroundColor(.white))
     )
 }
