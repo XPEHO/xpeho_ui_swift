@@ -53,19 +53,22 @@ public struct TagPill: View {
 }
 
 #Preview {
-    TagPill(
-        label: "Tag Pill Customized",
-        backgroundColor: XPEHO_THEME.XPEHO_COLOR,
-        labelColor: .white
-    )
-    
-    TagPill(
-        label: "Tag Pill Customized for icon",
-        backgroundColor: XPEHO_THEME.XPEHO_COLOR,
-        labelColor: .white,
-        icon: AnyView(Image(systemName: "location.circle")
-            .resizable()
-            .scaledToFit()
-            .foregroundColor(.white))
-    )
+    // VStack needed for two components
+    VStack {
+        TagPill(
+            label: "Tag Pill Customized",
+            backgroundColor: XPEHO_THEME.XPEHO_COLOR,
+            labelColor: .white
+        )
+        
+        TagPill(
+            label: "Tag Pill Customized for icon",
+            backgroundColor: XPEHO_THEME.XPEHO_COLOR,
+            labelColor: .white,
+            icon: AnyView(Image(systemName: "location.circle")
+                .resizable()
+                .scaledToFit()
+                .foregroundColor(.white))
+        )
+    }
 }
