@@ -53,6 +53,7 @@ public struct TagPill: View {
 }
 
 #Preview {
+    // VStack needed for two components
     VStack {
         TagPill(
             label: "Tag Pill Customized",
