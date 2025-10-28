@@ -82,6 +82,8 @@ The possible images can be viewed in the package's [Assets.xcassets](Sources/xpe
 - Statistic
 - Teams
 - Validated
+- Agenda
+- IdeaBulb
 
 Finally, you can use the colors of the design using the constants directly, they are define in [Utils.swift](Sources/xpeho_ui/Utils/Utils.swift) and the list is :
 
